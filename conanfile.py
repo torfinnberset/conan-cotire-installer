@@ -2,7 +2,7 @@ from conans import ConanFile
 from conans.tools import download, unzip
 import os
 
-VERSION = "1.6.6"
+VERSION = "1.7.6"
 
 
 class CotireConan(ConanFile):
