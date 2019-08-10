@@ -1,29 +1,21 @@
-from conans import ConanFile
-from conans.tools import download, unzip
+from conans import ConanFile, tools
 import os
-
-VERSION = "1.7.6"
 
 
 class CotireConan(ConanFile):
-    name = "cotire"
-    version = os.environ.get("CONAN_VERSION_OVERRIDE", VERSION)
+    name = "cotire_installer"
+    version = "1.8.0"
     generators = "cmake"
-    requires = tuple()
-    url = "http://github.com/sakra/cotire"
+    url = "https://github.com/torfinnberset/conan-cotire-installer"
+    homepage = "https://github.com/sakra/cotire"
+    description = "Cotire (compile time reducer) is a CMake module that speeds up"  \
+                  " the build process of CMake based build systems by fully automating" \
+                  " techniques such as precompiled header usage and single compilation " \
+                  " unit builds for C and C++."
     license = "MIT"
 
     def source(self):
-        zip_name = "cotire.zip"
-        download("https://github.com/sakra/"
-                 "cotire/archive/{version}.zip"
-                 "".format(version="cotire-" + VERSION),
-                 zip_name)
-        unzip(zip_name)
-        os.unlink(zip_name)
+        tools.get(F"https://github.com/sakra/cotire/archive/cotire-{self.version}.zip")
 
     def package(self):
-        self.copy(pattern="*.cmake",
-                  dst="cmake/cotire",
-                  src=os.path.join("cotire-cotire-" + VERSION, "CMake"),
-                  keep_path=True)
+        self.copy(pattern="*.cmake", src=F"{self.source_folder}/cotire-cotire-{self.version}/CMake")
